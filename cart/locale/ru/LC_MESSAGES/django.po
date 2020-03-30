@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-30 22:56+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: lib.py:119
+msgid "Product already added."
+msgstr "Товары уже добавлено."
+
+#: lib.py:122 lib.py:142
+msgid "No product in stock."
+msgstr "Нет товаров на складе"
+
+#: lib.py:146
+msgid "Limit exceeded. Max value: {}"
+msgstr "Лимит исчерпан. Максимальное значение {}"
+
+#: lib.py:149
+msgid "Product not added to cart."
+msgstr "Товар не добавлен в корзину"
+
+#: templates/cart/modal.html:20
+msgid "Cart is empty"
+msgstr "Корзина пустая"
+
+#: templates/cart/modal.html:22
+msgid "Orders cart"
+msgstr "Корзина заказов"
+
+#: templates/cart/modal.html:67
+msgid "To order"
+msgstr "Оформить заказ"
+
+#: templates/cart/qty.html:5
+msgid "Quantity, items"
+msgstr "Количество, шт"
+
+#: templates/cart/qty.html:29
+msgid "Quantity in stock"
+msgstr "Количество на складе"
+
+#: templates/cart/sum.html:5
+msgid "Sum"
+msgstr "Сумма"
+
+#: templates/cart/total.html:4
+msgid "Total"
+msgstr "Всего"
+
+#: views.py:40
+msgid "Product added to cart"
+msgstr "Товар добавлено в корзину"
+
+#: views.py:49
+msgid "Product removed from cart"
+msgstr "Товар удалено из корзины"
+
+#: views.py:64
+msgid "Quantity updated"
+msgstr "Количество оновлено"
