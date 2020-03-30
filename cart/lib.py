@@ -118,7 +118,7 @@ class Cart(object):
         if product in self.products:
             raise ValidationError(_('Product already added.'))
 
-        if not product.has_stock:
+        if hasattr(product, 'has_stock') and not product.has_stock:
             raise ValidationError(_('No product in stock.'))
 
         item = CartItem(product, qty=1)
