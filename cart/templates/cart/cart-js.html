@@ -1,0 +1,15 @@
+
+<script src="{{ STATIC_URL }}cart.min.js"></script>
+<script>
+    (function ($) {
+        new Cart({
+            urls: {
+                add: '{% url 'cart:add' %}',
+                remove: '{% url 'cart:remove' %}',
+                modal: '{% url 'cart:modal' %}',
+                setQty: '{% url 'cart:set-qty' %}'
+            },
+            csrf: '{{ csrf_token }}'
+        });
+    })(jQuery);
+</script>
