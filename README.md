@@ -1,6 +1,7 @@
 # MP-cart
 
-Django cart app.
+Django cart application. Works with/without quantity field. 
+Allows to setup max stock.
 
 ### Installation
 
@@ -10,7 +11,7 @@ Install with pip:
 pip install django-mp-cart
 ```
 
-Settings:
+Class based settings:
 ```
 from cart.settings import CartSettings
  
@@ -19,6 +20,25 @@ class CommonSettings(
         CartSettings,
         BaseSettings):
     pass
+    
+--------------- OR ---------------
+ 
+from cart.settings import CartSettings as BaseCartSettings
+ 
+class CartSettings(BaseCartSettings):
+ 
+    CART_PRODUCT_MODEL = 'products.Product' # OPTIONAL
+    
+```
+
+Simple settings:
+```
+INSTALLED_APPS = [
+    ...,
+    'cart
+]
+ 
+CART_PRODUCT_MODEL = 'products.Product' # OPTIONAL
 ```
 
 Urls:
@@ -43,6 +63,21 @@ Template (wrapper.html):
     {% cart_js %}
  
 {% endblock %}
+```
+
+Views api:
+```
+from cart.lib import get_cart
+ 
+def example_view(request):
+ 
+    cart = get_cart(request)
+    
+    for item in cart.items:
+        ...
+        
+    cart.clear()
+    
 ```
 
 Open cart html:
