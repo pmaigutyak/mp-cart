@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+include requirements.txt
+recursive-include cart/locale *
+recursive-include cart/static *
+recursive-include cart/templates *
+prune *.pyc

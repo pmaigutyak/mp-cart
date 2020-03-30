@@ -1,0 +1,74 @@
+
+{% load i18n %}
+
+<div class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     id="cart-popup"
+     data-role="cart-modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    {% if cart.is_empty %}
+                        {% trans 'Cart is empty' %}
+                    {% else %}
+                        {% trans 'Orders cart' %}
+                    {% endif %}
+                </h4>
+            </div>
+
+            {% if not cart.is_empty %}
+                <div class="modal-body">
+                    <table class="table cart-table">
+                        <tbody data-role="cart-items">
+                            {% for item in cart.items %}
+                                {% block item %}
+                                    <tr data-role="cart-item">
+                                        <td>
+                                            <a href="{{ item.url }}">
+                                                {{ item.name }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <h4>
+                                                {{ item.printable_price }}
+                                            </h4>
+                                        </td>
+                                        <td class="remove-cell">
+                                            {% include 'cart/remove-button.html' %}
+                                        </td>
+                                    </tr>
+                                {% endblock %}
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                {% block total %}
+                                    <td colspan="3" class="cart-total">
+                                        {% include 'cart/total.html' %}
+                                    </td>
+                                {% endblock %}
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'orders:checkout' %}"
+                       class="btn btn-success pull-right"
+                       rel="nofollow">
+                        <i class="fa fa-check"></i>
+                        {% trans 'To order' %}
+                    </a>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
