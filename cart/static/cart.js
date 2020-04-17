@@ -41,7 +41,7 @@ Cart = function (params) {
                 handleSaveSuccess(response);
                 modal.show();
             }
-        ).error(handleSaveError);
+        ).fail(handleSaveError);
     }
 
     function handleRemoveBtnClick() {
