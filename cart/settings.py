@@ -9,3 +9,6 @@ class CartSettings(object):
     @property
     def INSTALLED_APPS(self):
         return super().INSTALLED_APPS + ['cart']
+
+
+default = CartSettings

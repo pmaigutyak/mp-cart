@@ -1,5 +1,5 @@
 
-from django.urls import path
+from django.urls import path, include
 
 from cart import views
 
@@ -17,4 +17,9 @@ urlpatterns = [
 
     path('set-qty/', views.set_qty, name='set-qty')
 
+]
+
+
+app_urls = [
+    path('cart/', include((urlpatterns, app_name)))
 ]
