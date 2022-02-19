@@ -1,13 +1,16 @@
 
 from django import forms
 
-from cart.lib import get_product_model
-
 
 class SelectProductForm(forms.Form):
 
-    product = forms.ModelChoiceField(
-        queryset=get_product_model().objects.all())
+    def __init__(self, products, *args, **kwargs):
+
+        super().__init__(*args, **kwargs)
+
+        self.fields['product'] = forms.ModelChoiceField(
+            queryset=products.filter({'is_visible': True})
+        )
 
 
 class SetQtyForm(SelectProductForm):

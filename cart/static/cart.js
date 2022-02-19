@@ -23,25 +23,34 @@ CartModal = function (url) {
 
 Cart = function (params) {
 
-    var $body = $('body'),
+    var self = this,
+        $body = $('body'),
         modal = new CartModal(params.urls.modal);
 
     function handleAddBtnClick() {
-        var productId = $(this).data('product-id');
+        var $btn = $(this),
+            productId = $btn.data('product-id');
 
         toggleAddBtn(productId, false);
 
-        $.post(
-            params.urls.add,
-            {
-                csrfmiddlewaretoken: params.csrf,
-                product: productId
-            },
-            function (response) {
-                handleSaveSuccess(response);
-                modal.show();
-            }
-        ).fail(handleSaveError);
+        self.beforeAdd($btn).done(function () {
+            $.post(
+                params.urls.add,
+                {
+                    csrfmiddlewaretoken: params.csrf,
+                    product: productId
+                },
+                function (response) {
+                    handleSaveSuccess(response);
+                    modal.show();
+                }
+            ).fail(function () {
+                toggleAddBtn(productId, true);
+                handleSaveError();
+            });
+        }).fail(function () {
+            toggleAddBtn(productId, true);
+        });
     }
 
     function handleRemoveBtnClick() {
@@ -125,6 +134,10 @@ Cart = function (params) {
         });
     }
 
+    this.beforeAdd = function ($btn) {
+        return $.Deferred().resolve().promise();
+    };
+
     $body.on('click', '[data-role=add-to-cart]', handleAddBtnClick);
     $body.on('click', '[data-role=remove-from-cart]', handleRemoveBtnClick);
     $body.on('input', '[data-role=cart-item-qty]', handleQtyChange);
@@ -132,3 +145,19 @@ Cart = function (params) {
     $body.on('click', '[data-role=minus-cart-item-qty]', handleMinusQtyBtnClick);
 
 };
+
+$(window).on('load', function () {
+    var urlPrefix = '/' + lang_code + '/cart/';
+
+    cart = new Cart({
+        csrf: csrf,
+        urls: {
+            add: urlPrefix + 'add',
+            remove: urlPrefix + 'remove',
+            modal: urlPrefix + 'modal',
+            setQty: urlPrefix + 'set-qty'
+        }
+    });
+
+    $(window).trigger('cart-ready');
+});

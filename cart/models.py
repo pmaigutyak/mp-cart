@@ -1,23 +1,14 @@
 
-from django.apps import apps
-
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from cart.config import CART_PRODUCT_MODEL
-
-
-def get_product_model():
-    return apps.get_model(CART_PRODUCT_MODEL)
-
-
-def get_cart(request):
-    return Cart(request.session)
+from basement.services import register_service
 
 
 class CartItem(object):
 
-    def __init__(self, product, qty):
+    def __init__(self, products, product, qty):
+        self._products = products
         self.product = product
         self.qty = qty
 
@@ -39,7 +30,7 @@ class CartItem(object):
 
     @property
     def printable_total(self):
-        return get_product_model().format_printable_price(self.total)
+        return self._products.format_printable_price(self.total)
 
     @property
     def name(self):
@@ -76,8 +67,14 @@ class CartItem(object):
 
 class Cart(object):
 
-    def __init__(self, session):
+    @staticmethod
+    @register_service('cart')
+    def factory(services, user, session, **kwargs):
+        return Cart(services.products, session)
 
+    def __init__(self, products, session):
+
+        self._products = products
         self._session = session
         self._session_key = 'CART'
 
@@ -99,12 +96,15 @@ class Cart(object):
             print(e)
             return {}
 
-        queryset = get_product_model().objects.filter(id__in=data.keys())
+        queryset = self._products.filter({
+            'is_visible': True,
+            'id__in': data.keys()
+        })
 
-        if hasattr(queryset, 'visible'):
-            queryset = queryset.visible()
-
-        return {p.id: CartItem(p, qty=data[p.id]) for p in queryset}
+        return {
+            p.id: self._build_cart_item(p, qty=data[p.id])
+            for p in queryset
+        }
 
     def commit(self):
         self._session[self._session_key] = self._get_commit_data()
@@ -121,12 +121,15 @@ class Cart(object):
         if hasattr(product, 'has_stock') and not product.has_stock:
             raise ValidationError(_('No product in stock.'))
 
-        item = CartItem(product, qty=1)
+        item = self._build_cart_item(product, qty=1)
 
         self._items[product.id] = item
         self.commit()
 
         return item.serialize()
+
+    def _build_cart_item(self, product, qty):
+        return CartItem(self._products, product, qty)
 
     def remove(self, product):
 
@@ -181,4 +184,4 @@ class Cart(object):
 
     @property
     def printable_total(self):
-        return get_product_model().format_printable_price(self.total)
+        return self._products.format_printable_price(self.total)

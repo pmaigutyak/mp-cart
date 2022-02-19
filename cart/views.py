@@ -6,19 +6,18 @@ from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from django.views.decorators.csrf import csrf_exempt
 
-from cart.lib import get_cart
 from cart.forms import SelectProductForm, SetQtyForm
 
 
 @require_POST
 def _cart_action_view(request, action_factory, form_class, message):
 
-    form = form_class(data=request.POST)
+    form = form_class(request.env.products, data=request.POST)
 
     if not form.is_valid():
         return JsonResponse({'message': form.errors.as_json()}, status=403)
 
-    cart = get_cart(request)
+    cart = request.env.cart
 
     try:
         result = action_factory(cart, form.cleaned_data)
@@ -51,8 +50,7 @@ def remove(request):
 
 
 def get_modal(request):
-    cart = get_cart(request)
-    return render(request, 'cart/modal.html', {'cart': cart})
+    return render(request, 'cart/modal.html', {'cart': request.env.cart})
 
 
 @csrf_exempt
