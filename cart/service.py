@@ -2,8 +2,6 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from basement.services import register_service
-
 
 class CartItem(object):
 
@@ -65,12 +63,7 @@ class CartItem(object):
         }
 
 
-class Cart(object):
-
-    @staticmethod
-    @register_service('cart')
-    def factory(services, user, session, **kwargs):
-        return Cart(services.products, session)
+class CartService(object):
 
     def __init__(self, products, session):
 

@@ -1,0 +1,9 @@
+
+{% load i18n %}
+
+
+{% trans 'Sum' %}
+<h4 data-role="cart-item-total"
+    data-product-id="{{ item.id }}">
+    {{ item.printable_total }}
+</h4>

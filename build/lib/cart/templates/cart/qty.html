@@ -1,0 +1,30 @@
+
+{% load i18n %}
+
+<p>
+    {% trans 'Quantity, items' %}
+</p>
+
+<div class="clearfix"></div>
+
+<button class="btn btn-default pull-left"
+        data-role="minus-cart-item-qty">
+    <i class="fa fa-minus"></i>
+</button>
+<input type="number"
+       class="form-control pull-left text-center"
+       data-role="cart-item-qty"
+       data-product-id="{{ item.id }}"
+       value="{{ item.qty }}"
+       max="{{ item.max_qty }}"
+       style="width: 60px">
+<button class="btn btn-default pull-left"
+        data-role="plus-cart-item-qty">
+    <i class="fa fa-plus"></i>
+</button>
+
+<div class="clearfix"></div>
+
+<p class="p-t-10">
+    {% trans 'Quantity in stock' %}: {{ item.max_qty }}
+</p>
