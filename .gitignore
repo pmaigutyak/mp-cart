@@ -11,6 +11,7 @@
 storage.db
 *.pem
 *.crt
+build
 media
 static-collect
 debug.log
