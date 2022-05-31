@@ -2,11 +2,13 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from cart.utils import get_active_products
+from exchange.utils import format_printable_price
+
 
 class CartItem(object):
 
-    def __init__(self, products, product, qty):
-        self._products = products
+    def __init__(self, product, qty):
         self.product = product
         self.qty = qty
 
@@ -28,7 +30,7 @@ class CartItem(object):
 
     @property
     def printable_total(self):
-        return self._products.format_printable_price(self.total)
+        return format_printable_price(self.total)
 
     @property
     def name(self):
@@ -65,9 +67,8 @@ class CartItem(object):
 
 class CartService(object):
 
-    def __init__(self, products, session):
+    def __init__(self, session):
 
-        self._products = products
         self._session = session
         self._session_key = 'CART'
 
@@ -89,14 +90,9 @@ class CartService(object):
             print(e)
             return {}
 
-        queryset = self._products.filter({
-            'is_visible': True,
-            'id__in': data.keys()
-        })
-
         return {
             p.id: self._build_cart_item(p, qty=data[p.id])
-            for p in queryset
+            for p in get_active_products().filter(id__in=data.keys())
         }
 
     def commit(self):
@@ -122,7 +118,7 @@ class CartService(object):
         return item.serialize()
 
     def _build_cart_item(self, product, qty):
-        return CartItem(self._products, product, qty)
+        return CartItem(product, qty)
 
     def remove(self, product):
 
@@ -177,4 +173,4 @@ class CartService(object):
 
     @property
     def printable_total(self):
-        return self._products.format_printable_price(self.total)
+        return format_printable_price(self.total)

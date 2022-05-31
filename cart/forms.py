@@ -1,15 +1,17 @@
 
 from django import forms
 
+from cart.utils import get_active_products
+
 
 class SelectProductForm(forms.Form):
 
-    def __init__(self, products, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
 
         self.fields['product'] = forms.ModelChoiceField(
-            queryset=products.filter({'is_visible': True})
+            queryset=get_active_products()
         )
 
 
