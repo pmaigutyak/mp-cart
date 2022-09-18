@@ -1,5 +1,5 @@
 
-from django.utils.translation import ugettext
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -36,7 +36,7 @@ def add(request):
         request,
         action_factory=lambda cart, data: cart.add(**data),
         form_class=SelectProductForm,
-        message=ugettext('Product added to cart')
+        message=gettext('Product added to cart')
     )
 
 
@@ -45,7 +45,7 @@ def remove(request):
         request,
         action_factory=lambda cart, data: cart.remove(**data),
         form_class=SelectProductForm,
-        message=ugettext('Product removed from cart')
+        message=gettext('Product removed from cart')
     )
 
 
@@ -59,5 +59,5 @@ def set_qty(request):
         request,
         action_factory=lambda cart, data: cart.set_qty(**data),
         form_class=SetQtyForm,
-        message=ugettext('Quantity updated')
+        message=gettext('Quantity updated')
     )

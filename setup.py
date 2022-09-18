@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 
-version = '0.4.2'
+version = '1.0.0'
 url = 'https://github.com/pmaigutyak/mp-cart'
 
 with open('requirements.txt') as f:
