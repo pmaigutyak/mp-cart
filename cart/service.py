@@ -1,8 +1,11 @@
 
+from django.apps import apps
+from django.core.exceptions import FieldDoesNotExist
 from django.core.exceptions import ValidationError
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from cart.utils import get_active_products
 from exchange.utils import format_printable_price
 
 
@@ -67,9 +70,10 @@ class CartItem(object):
 
 class CartService(object):
 
-    def __init__(self, session):
+    def __init__(self, request):
 
-        self._session = session
+        self._session = request.session
+        self._products = request.products
         self._session_key = 'CART'
 
         self._items = self._get_items_from_session()
@@ -92,7 +96,7 @@ class CartService(object):
 
         return {
             p.id: self._build_cart_item(p, qty=data[p.id])
-            for p in get_active_products().filter(id__in=data.keys())
+            for p in self._products.filter(is_visible=True, id_in=data.keys())
         }
 
     def commit(self):
@@ -174,3 +178,28 @@ class CartService(object):
     @property
     def printable_total(self):
         return format_printable_price(self.total)
+
+    def render_js(self):
+        return mark_safe(
+            """
+            <script>
+                $(window).on('load', function () {
+                    cart = new Cart({
+                        urls: {
+                            add: '%s',
+                            remove: '%s',
+                            modal: '%s',
+                            setQty: '%s'
+                        }
+                    });
+                
+                    $(window).trigger('cart-ready');
+                });
+            </script>
+            """ % (
+                reverse('cart:add'),
+                reverse('cart:remove'),
+                reverse('cart:modal'),
+                reverse('cart:set-qty'),
+            )
+        )

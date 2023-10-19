@@ -12,7 +12,7 @@ from cart.forms import SelectProductForm, SetQtyForm
 @require_POST
 def _cart_action_view(request, action_factory, form_class, message):
 
-    form = form_class(data=request.POST)
+    form = form_class(request.products, data=request.POST)
 
     if not form.is_valid():
         return JsonResponse({'message': form.errors.as_json()}, status=403)

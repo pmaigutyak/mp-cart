@@ -1,6 +1,5 @@
 
-from django.urls import path, include
-from django.conf.urls.i18n import i18n_patterns
+from django.urls import path
 
 from cart import views
 
@@ -19,8 +18,3 @@ urlpatterns = [
     path('set-qty', views.set_qty, name='set-qty')
 
 ]
-
-
-app_urls = i18n_patterns(
-    path('cart/', include((urlpatterns, app_name)))
-)

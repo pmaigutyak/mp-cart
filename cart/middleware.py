@@ -9,5 +9,5 @@ class CartMiddleware(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        request.cart = SimpleLazyObject(lambda: CartService(request.session))
+        request.cart = SimpleLazyObject(lambda: CartService(request))
         return self.get_response(request)

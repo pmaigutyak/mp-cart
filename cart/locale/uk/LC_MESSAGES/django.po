@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-30 22:56+0300\n"
+"POT-Creation-Date: 2023-10-06 16:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,58 +21,51 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: lib.py:119
+#: apps/cart/service.py:111
 msgid "Product already added."
 msgstr "Товари уже додано"
 
-#: lib.py:122 lib.py:142
+#: apps/cart/service.py:114 apps/cart/service.py:137
 msgid "No product in stock."
 msgstr "Немає товару на складі"
 
-#: lib.py:146
+#: apps/cart/service.py:141
 msgid "Limit exceeded. Max value: {}"
 msgstr "Ліміт вичерпано. Максимальне значення {}"
 
-#: lib.py:149
+#: apps/cart/service.py:144
 msgid "Product not added to cart."
 msgstr "Товар не додано до кошика"
 
-#: templates/cart/modal.html:20
-msgid "Cart is empty"
-msgstr "У кошику немає товарів"
-
-#: templates/cart/modal.html:22
-msgid "Orders cart"
-msgstr "Кошик замовлень"
-
-#: templates/cart/modal.html:67
-msgid "To order"
-msgstr "Оформити замовлення"
-
-#: templates/cart/qty.html:5
-msgid "Quantity, items"
-msgstr "Кількість, шт"
-
-#: templates/cart/qty.html:29
-msgid "Quantity in stock"
-msgstr "Кількість на складі"
-
-#: templates/cart/sum.html:5
-msgid "Sum"
-msgstr "Сума"
-
-#: templates/cart/total.html:4
-msgid "Total"
-msgstr "Загалом"
-
-#: views.py:40
+#: apps/cart/views.py:39
 msgid "Product added to cart"
 msgstr "Товар додано до кошика"
 
-#: views.py:49
+#: apps/cart/views.py:48
 msgid "Product removed from cart"
 msgstr "Товар видалено з кошика"
 
-#: views.py:64
+#: apps/cart/views.py:62
 msgid "Quantity updated"
 msgstr "Кількість оновлено"
+
+#~ msgid "Cart is empty"
+#~ msgstr "У кошику немає товарів"
+
+#~ msgid "Orders cart"
+#~ msgstr "Кошик замовлень"
+
+#~ msgid "To order"
+#~ msgstr "Оформити замовлення"
+
+#~ msgid "Quantity, items"
+#~ msgstr "Кількість, шт"
+
+#~ msgid "Quantity in stock"
+#~ msgstr "Кількість на складі"
+
+#~ msgid "Sum"
+#~ msgstr "Сума"
+
+#~ msgid "Total"
+#~ msgstr "Загалом"

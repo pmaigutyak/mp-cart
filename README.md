@@ -1,92 +1,28 @@
 # MP-cart
 
 Django cart application. Works with/without quantity field. 
-Allows to setup max stock.
+Allows to set up max stock.
 
 ### Installation
 
-Install with pip:
+Installation:
+* add `django-mp-cart` to `requirements.txt`
+* add `cart` to `INSTALLED_APPS`
+* add `'cart.middleware.CartMiddleware',` to `MIDDLEWARE` settings
+* add `path('cart/', include('cart.urls')),` to `urls.py`
+* add `{{ request.cart.render_js }}` before `</body>` tag close
 
-```
-pip install django-mp-cart
-```
+Requirements:
+* `request.products.filter` method with is_available(bool), id_in(list) params
+* `exchange.utils.format_printable_price` method
 
-Class based settings:
-```
-from cart.settings import CartSettings
- 
-class CommonSettings(
-        ...,
-        CartSettings,
-        BaseSettings):
-    pass
-    
---------------- OR ---------------
- 
-from cart.settings import CartSettings as BaseCartSettings
- 
-class CartSettings(BaseCartSettings):
- 
-    CART_PRODUCT_MODEL = 'products.Product' # OPTIONAL
-    
-```
-
-Simple settings:
-```
-INSTALLED_APPS = [
-    ...,
-    'cart
-]
- 
-CART_PRODUCT_MODEL = 'products.Product' # OPTIONAL
-```
-
-Urls:
-```
-urlpatterns = [
-    ...,
-    path('cart/', include('cart.urls')),
-    ...
-]
-```
-
-Template (wrapper.html):
-```
-{% load cart %}
- 
-{% get_cart as cart %}
- 
-{% block js %}
- 
-    ...
-
-    {% cart_js %}
- 
-{% endblock %}
-```
-
-Views api:
-```
-from cart.lib import get_cart
- 
-def example_view(request):
- 
-    cart = get_cart(request)
-    
-    for item in cart.items:
-        ...
-        
-    cart.clear()
-    
-```
 
 Open cart html:
 ```
-<a href="javascript:void(0);" data-role="open-cart-btn" class="cart-link">
-    <i class="fa fa-shopping-cart"></i>
-    {% trans 'Cart' %}
-    <div data-role="cart-total" class="cart-total">
-        {% if not cart.is_empty %}{{ cart.printable_total }}{% endif %}
+<a href="javascript:void(0);" data-role="open-cart-btn">
+    <i class="fa fa-shopping-cart cart-icon"></i>
+    <div data-role="cart-total">
+        {{ request.env.cart.printable_total }}
     </div>
 </a>
 ```

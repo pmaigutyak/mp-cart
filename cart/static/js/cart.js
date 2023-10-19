@@ -37,16 +37,16 @@ Cart = function (params) {
             $.post(
                 params.urls.add,
                 {
-                    csrfmiddlewaretoken: params.csrf,
+                    csrfmiddlewaretoken: csrf,
                     product: productId
                 },
                 function (response) {
                     handleSaveSuccess(response);
                     modal.show();
                 }
-            ).fail(function () {
+            ).fail(function (response) {
                 toggleAddBtn(productId, true);
-                handleSaveError();
+                handleSaveError(response);
             });
         }).fail(function () {
             toggleAddBtn(productId, true);
@@ -63,7 +63,7 @@ Cart = function (params) {
         $.post(
             params.urls.remove,
             {
-                csrfmiddlewaretoken: params.csrf,
+                csrfmiddlewaretoken: csrf,
                 product: productId
             },
             handleSaveSuccess
@@ -83,13 +83,13 @@ Cart = function (params) {
 
         if (maxQty && qty > maxQty) {
             qty = maxQty;
-            $(this).val(qty)
+            $(this).val(qty);
         }
 
         return $.post(
             params.urls.setQty,
             {
-                csrfmiddlewaretoken: params.csrf,
+                csrfmiddlewaretoken: csrf,
                 product: productId,
                 qty: qty
             },
@@ -145,19 +145,3 @@ Cart = function (params) {
     $body.on('click', '[data-role=minus-cart-item-qty]', handleMinusQtyBtnClick);
 
 };
-
-$(window).on('load', function () {
-    var urlPrefix = '/' + lang_code + '/cart/';
-
-    cart = new Cart({
-        csrf: csrf,
-        urls: {
-            add: urlPrefix + 'add',
-            remove: urlPrefix + 'remove',
-            modal: urlPrefix + 'modal',
-            setQty: urlPrefix + 'set-qty'
-        }
-    });
-
-    $(window).trigger('cart-ready');
-});
