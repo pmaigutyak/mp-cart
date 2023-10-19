@@ -9,6 +9,7 @@ Installation:
 * add `django-mp-cart` to `requirements.txt`
 * add `cart` to `INSTALLED_APPS`
 * add `'cart.middleware.CartMiddleware',` to `MIDDLEWARE` settings
+* add `'js/cart.js',` to js files
 * add `path('cart/', include('cart.urls')),` to `urls.py`
 * add `{{ request.cart.render_js }}` before `</body>` tag close
 
