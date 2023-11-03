@@ -9,6 +9,7 @@ Installation:
 * add `django-mp-cart` to `requirements.txt`
 * add `cart` to `INSTALLED_APPS`
 * add `'cart.middleware.CartMiddleware',` to `MIDDLEWARE` settings
+* add `'css/cart.css',` to css files
 * add `'js/cart.js',` to js files
 * add `path('cart/', include('cart.urls')),` to `urls.py`
 * add `{{ request.cart.render_js }}` before `</body>` tag close
@@ -26,38 +27,4 @@ Open cart html:
         {{ request.env.cart.printable_total }}
     </div>
 </a>
-```
-
-Cart modal template customization example (templates/cart/modal.html):
-```
-{% extends 'cart/modal.html' %}
- 
-{% load i18n %}
- 
- 
-{% block item %}
-    <tr data-role="cart-item">
-        <td>
-            <a href="{{ item.url }}">
-                {{ item.name }}
-            </a>
-        </td>
-        <td>
-            {% include 'cart/qty.html' %}
-        </td>
-        <td>
-            {% include 'cart/sum.html' %}
-        </td>
-        <td class="remove-cell">
-            {% include 'cart/remove-button.html' %}
-        </td>
-    </tr>
-{% endblock %}
- 
- 
-{% block total %}
-    <td colspan="4" class="cart-total">
-        {% include 'cart/total.html' %}
-    </td>
-{% endblock %}
 ```

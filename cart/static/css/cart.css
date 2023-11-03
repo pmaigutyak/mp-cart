@@ -1,0 +1,26 @@
+.cart-modal-item {
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+
+  &:last-child {
+    border: none;
+  }
+
+  .product-details {
+    flex: 1;
+  }
+
+  .preview {
+    flex: 0 0 70px;
+  }
+}
+
+.cart-modal-total {
+  text-align: right;
+  font-size: 18px;
+  padding: 5px;
+  background: #ebebeb;
+}
