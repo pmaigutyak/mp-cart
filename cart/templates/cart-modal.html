@@ -1,0 +1,72 @@
+
+{% extends "modal.html" %}
+
+{% load i18n %}
+
+
+{% block title %}
+    {% if cart.is_empty %}
+        {% trans 'Cart is empty' %}
+    {% else %}
+        {% trans 'Orders cart' %}
+    {% endif %}
+{% endblock %}
+
+
+{% block dialog_class %}
+    modal-xl
+{% endblock %}
+
+
+{% block body %}
+    {% if not cart.is_empty %}
+        <div data-role="cart-items">
+            {% for item in cart.items %}
+                <div data-role="cart-item" class="cart-modal-item">
+                    <div class="preview">
+                        {% include "products/logo.html" with product=item.product %}
+                    </div>
+                    <div class="product-details">
+                        <a href="{{ item.url }}">{{ item.name }}</a>
+                        {% include "products/state.html" with product=item.product %}
+                        {% include "products/manufacturer.html" with product=item.product %}
+                    </div>
+                    <div class="sum">
+                        {% trans 'Sum' %}
+                        <div>
+                            1 x
+                            <span data-role="cart-item-total"
+                                  data-product-id="{{ item.id }}">
+                                {{ item.printable_total }}
+                            </span>
+                        </div>
+                    </div>
+                    <button data-role="remove-from-cart"
+                            data-product-id="{{ item.id }}"
+                            type="button"
+                            class="btn btn-link p-0">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="cart-modal-total">
+            {% trans 'Total' %}:
+            <span data-role="cart-total">
+                {{ cart.printable_total }}
+            </span>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+{% block footer %}
+    {% if not cart.is_empty %}
+        <a href="{% url 'orders:checkout' %}"
+           class="btn btn-success float-end"
+           rel="nofollow">
+            <i class="fa fa-check"></i>
+            {% trans 'To order' %}
+        </a>
+    {% endif %}
+{% endblock %}

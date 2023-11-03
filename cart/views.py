@@ -50,7 +50,7 @@ def remove(request):
 
 
 def get_modal(request):
-    return render(request, 'cart/modal.html', {'cart': request.cart})
+    return render(request, 'cart-modal.html', {'cart': request.cart})
 
 
 @csrf_exempt
