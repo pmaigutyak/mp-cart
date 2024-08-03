@@ -15,7 +15,7 @@ Installation:
 * add `{{ request.cart.render_js }}` before `</body>` tag close
 
 Requirements:
-* `request.products.filter` method with is_available(bool), id_in(list) params
+* `request.products.filter` method with is_visible(bool), id_in(list) params
 * `exchange.utils.format_printable_price` method
 
 
