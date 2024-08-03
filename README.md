@@ -16,7 +16,7 @@ Installation:
 
 Requirements:
 * `request.products.filter` method with is_visible(bool), id_in(list) params
-* `exchange.utils.format_printable_price` method
+* `request.products.format_printable_price` method with price argument
 
 
 Open cart html:

@@ -1,17 +1,14 @@
 
-from django.apps import apps
-from django.core.exceptions import FieldDoesNotExist
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from exchange.utils import format_printable_price
-
 
 class CartItem(object):
 
-    def __init__(self, product, qty):
+    def __init__(self, products, product, qty):
+        self._products = products
         self.product = product
         self.qty = qty
 
@@ -33,7 +30,7 @@ class CartItem(object):
 
     @property
     def printable_total(self):
-        return format_printable_price(self.total)
+        return self._products.format_printable_price(self.total)
 
     @property
     def name(self):
@@ -127,7 +124,7 @@ class CartService(object):
         return data
 
     def _build_cart_item(self, product, qty):
-        return CartItem(product, qty)
+        return CartItem(self._products, product, qty)
 
     def remove(self, product):
 
@@ -185,7 +182,7 @@ class CartService(object):
 
     @property
     def printable_total(self):
-        return format_printable_price(self.total)
+        return self._products.format_printable_price(self.total)
 
     def render_js(self):
         return mark_safe(
