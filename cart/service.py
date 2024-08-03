@@ -119,7 +119,12 @@ class CartService(object):
         self._items[product.id] = item
         self.commit()
 
-        return item.serialize()
+        data = item.serialize()
+
+        if hasattr(product, 'serialize'):
+            data["product"] = product.serialize()
+
+        return data
 
     def _build_cart_item(self, product, qty):
         return CartItem(product, qty)
@@ -131,6 +136,9 @@ class CartService(object):
 
         del self._items[product.id]
         self.commit()
+
+        if hasattr(product, 'serialize'):
+            return {'product': product.serialize()}
 
     def set_qty(self, product, qty):
 

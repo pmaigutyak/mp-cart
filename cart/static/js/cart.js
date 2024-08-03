@@ -43,6 +43,7 @@ Cart = function (params) {
                 function (response) {
                     handleSaveSuccess(response);
                     modal.show();
+                    $(window).trigger("cart.added", [response.result]);
                 }
             ).fail(function (response) {
                 toggleAddBtn(productId, true);
@@ -66,7 +67,10 @@ Cart = function (params) {
                 csrfmiddlewaretoken: csrf,
                 product: productId
             },
-            handleSaveSuccess
+            (response) => {
+                handleSaveSuccess(response);
+                $(window).trigger("cart.removed", [response.result]);
+            }
         );
     }
 
