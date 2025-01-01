@@ -1,31 +1,13 @@
 
-CartModal = function (url) {
-
-    function loadModal() {
-        $.get(url, showModal);
-    }
-
-    function showModal(response) {
-        var $modal = $(response);
-
-        $modal.modal();
-
-        $modal.on('hidden.bs.modal', function () {
-            $modal.remove();
-        });
-    }
-
-    $('body').on('click', '[data-role=open-cart-btn]', loadModal);
-
-    this.show = loadModal;
-
-};
-
 Cart = function (params) {
 
     var self = this,
-        $body = $('body'),
-        modal = new CartModal(params.urls.modal);
+        $body = $('body');
+
+    var modal = new Modal({
+        url: params.urls.modal,
+        selector: '[data-role=open-cart-btn]',
+    });
 
     function handleAddBtnClick() {
         var $btn = $(this),
